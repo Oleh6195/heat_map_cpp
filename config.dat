@@ -2,7 +2,7 @@ matrix.txt # matrix filename
 7800 #ro
 460 #c
 80.4 #k
-4 #height
-4 #width
+1000 #height
+1000 #width
 2 # threads number
 100 #iterations
