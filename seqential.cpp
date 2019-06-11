@@ -44,7 +44,7 @@ int main(int argc, char *argv[]) {
     double alpha = config.k/(config.ro * config.c);
 
     for (int k = 0; k < config.iterations; ++k) {
-        calcul(matrix,new_matrix, alpha);
+        calcul(matrix,new_matrix, alpha, config.delta_x, config.delta_y, config.delta_t);
         move_matrix(matrix, new_matrix);
         create_image(matrix, k, maxi, mini);
     }

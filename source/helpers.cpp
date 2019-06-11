@@ -30,6 +30,14 @@ configuration_t read_conf(std::istream& cf){
         getline(cf, temp);
         cf >> res.iterations;
         getline(cf, temp);
+        cf >> res.delta_x;
+        getline(cf, temp);
+        cf >> res.delta_y;
+        getline(cf, temp);
+        cf >> res.delta_t;
+        getline(cf, temp);
+        cf >> res.interval_printing;
+        getline(cf, temp);
     }catch(std::ios_base::failure &fail)
     {
         cf.flags( flags );
@@ -67,8 +75,9 @@ void move_matrix(std::vector<std::vector<double >>& matrix, std::vector<std::vec
         new_matrix[i][0] = matrix[i][0];
         new_matrix[i][matrix[i].size() - 1] = matrix[i][matrix[i].size() - 1];
     }
-    matrix = new_matrix;
-    new_matrix.clear();
+    matrix.swap(new_matrix);
+//    matrix = new_matrix;
+//    new_matrix.clear();
 }
 
 void printmatrix(std::vector<std::vector<double >>& matrix){
@@ -79,4 +88,14 @@ void printmatrix(std::vector<std::vector<double >>& matrix){
         std::cout << std::endl;
     }
     std::cout << "\n" << std::endl;
+}
+void write_matrix(int i, std::vector<std::vector<double >> matrix){
+    std::string filename = "matrixes/m_"+ std::to_string(i) + ".txt";
+    std::ofstream output(filename);
+    for (int j = 0; j < matrix.size(); ++j) {
+        for (int k = 0; k < matrix.size(); ++k) {
+            output << matrix[j][k] << " ";
+        }
+        output << "\n";
+    }
 }

@@ -1,13 +1,12 @@
 #include <iostream>
 #include <string>
-
+#include <chrono>
 #include "headers/helpers.h"
 #include "headers/equetion.h"
 #include <vector>
 #include <thread>
 #include "headers/plot.h"
 
-using namespace std;
 
 int main(int argc, char *argv[]) {
     auto start = get_current_time_fenced();
@@ -34,24 +33,27 @@ int main(int argc, char *argv[]) {
         cerr << "Error: " << ex.what() << endl;
         return 3;
     }
+    typedef std::chrono::seconds s;
     std::locale loc = boost::locale::generator().generate("en_US.UTF-8");
     std::locale::global(loc);
     std::cout.imbue(loc);
     std::vector<std::vector<double>> matrix;
     std::vector<std::vector<double>> new_matrix;
     load_matrix(config.filename, matrix, config.x, config.y);
+    new_matrix = matrix;
     double alpha = config.k /config.ro / config.c;
     double maxi = get_max(matrix);
     double mini = get_min(matrix);
     std::mutex mtx;
+    boost::barrier barrier(static_cast<unsigned int>(config.thr_num));
     std::vector<std::thread> threads_v;
     threads_v.reserve(static_cast<unsigned long>(config.thr_num));
+    auto printing_result_time = get_current_time_fenced();
     for (int k = 0; k < (int) config.iterations; ++k) {
-        new_matrix = matrix;
         for (int i = 0; i < config.thr_num; i++) {
             threads_v.emplace_back(
-                    std::thread(parallel_calculation, ref(matrix), ref(new_matrix), alpha, config.thr_num, i + 1,
-                                ref(mtx)));
+                    std::thread(parallel_calculation, ref(matrix), ref(new_matrix), alpha,
+                            config.delta_x, config.delta_y, config.delta_t, config.thr_num, i + 1, ref(mtx)));
         }
         for (int i = 0; i < config.thr_num; i++) {
             if (threads_v[i].joinable()) {
@@ -61,7 +63,14 @@ int main(int argc, char *argv[]) {
 
         threads_v.clear();
         move_matrix(matrix, new_matrix);
-        create_image(matrix,k, maxi, mini);
+        std::cout << matrix[100][100] << std::endl;
+        auto interval = get_current_time_fenced() - printing_result_time;
+        auto d = std::chrono::duration_cast<s>(interval);
+        if (d.count() >= config.interval_printing) {
+            create_image(matrix, k, maxi, mini);
+            write_matrix(k, matrix);
+            printing_result_time = get_current_time_fenced();
+        }
     }
     auto finish = get_current_time_fenced() - start;
     std::cout << finish.count() << std::endl;

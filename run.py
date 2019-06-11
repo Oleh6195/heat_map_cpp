@@ -12,7 +12,7 @@ parallel.wait()
 res = str(parallel.communicate()[0], 'utf-8').split('\n')
 for i in res:
     print(i)
-#
+
 images = [img for img in os.listdir(image_folder) if img.endswith(".png")]
 images.reverse()
 frame = cv2.imread(os.path.join(image_folder, images[0]))

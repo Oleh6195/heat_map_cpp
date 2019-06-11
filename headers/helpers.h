@@ -19,8 +19,8 @@ struct configuration_t
 {
     std::string filename;
     double ro, k,x,y;
-    float c;
-    int thr_num, iterations;
+    float c,delta_y, delta_x, delta_t;
+    int thr_num, iterations, interval_printing;
 };
 
 inline std::chrono::steady_clock::time_point get_current_time_fenced() {
@@ -36,4 +36,5 @@ configuration_t read_conf(std::istream& cf);
 
 void move_matrix(std::vector<std::vector<double >>& matrix, std::vector<std::vector<double >>& new_matrix);
 void printmatrix(std::vector<std::vector<double >>& matrix);
+void write_matrix(int i, std::vector<std::vector<double >> matrix);
 #endif //TALON_HELPERS_H
