@@ -9,4 +9,4 @@ matrix.txt # matrix filename
 0.1 #delta x
 0.1 #delta y
 0.1 #delta t
-30 # interval for writing result (seconds)
+3 # interval for writing result (seconds)

@@ -53,7 +53,7 @@ int main(int argc, char *argv[]) {
         for (int i = 0; i < config.thr_num; i++) {
             threads_v.emplace_back(
                     std::thread(parallel_calculation, ref(matrix), ref(new_matrix), alpha,
-                            config.delta_x, config.delta_y, config.delta_t, config.thr_num, i + 1, ref(mtx)));
+                                config.delta_x, config.delta_y, config.delta_t, config.thr_num, i + 1, ref(mtx)));
         }
         for (int i = 0; i < config.thr_num; i++) {
             if (threads_v[i].joinable()) {
@@ -63,13 +63,19 @@ int main(int argc, char *argv[]) {
 
         threads_v.clear();
         move_matrix(matrix, new_matrix);
-        std::cout << matrix[100][100] << std::endl;
         auto interval = get_current_time_fenced() - printing_result_time;
         auto d = std::chrono::duration_cast<s>(interval);
         if (d.count() >= config.interval_printing) {
-            create_image(matrix, k, maxi, mini);
+//            create_image(matrix, k, maxi, mini);
+
+            std::vector<std::vector<double >> matrix_for_image(matrix);
+            std::thread create_image_thread(create_image, ref(matrix_for_image), k, maxi, mini);
+            if (create_image_thread.joinable()) {
+                create_image_thread.join();
+            }
             write_matrix(k, matrix);
             printing_result_time = get_current_time_fenced();
+            std::cout << "Results saved" << std::endl;
         }
     }
     auto finish = get_current_time_fenced() - start;
