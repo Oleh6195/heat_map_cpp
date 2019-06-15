@@ -35,9 +35,7 @@ pixel_t temp_to_rgb(double mini, double maxi, double temp) {
     p.green = 255 - p.blue - p.red;
     return p;
 }
-
-vector<vector<pixel_t>> image_array(std::vector<std::vector<double>> matrix, double maxi, double mini) {
-    std::vector<std::vector<pixel_t>> img;
+void image_array(vector<vector<double>>& matrix, vector<vector<pixel_t>>& img, double maxi, double mini) {
     for (int i = 0; i < matrix.size(); ++i) {
         std::vector<pixel_t> ws;
         for (int j = 0; j < matrix[i].size(); ++j) {
@@ -47,13 +45,13 @@ vector<vector<pixel_t>> image_array(std::vector<std::vector<double>> matrix, dou
         img.emplace_back(ws);
 
     }
-    return img;
 }
 
-void create_image(std::vector<std::vector<double>>& matrix, int i, double maxi, double mini) {
-    std::vector<std::vector<pixel_t>> image = image_array(matrix, maxi, mini);
+void create_image(std::vector<std::vector<double>> matrix, int i, double maxi, double mini) {
+    std::vector<std::vector<pixel_t>> img;
+    image_array(matrix, img, maxi, mini);
     std::string filename = "img/pic_" + std::to_string(i) + ".png";
-    write_png_file(image, filename);
+    write_png_file(img, filename);
 
 }
 

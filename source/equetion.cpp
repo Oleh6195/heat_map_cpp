@@ -1,14 +1,16 @@
 //
 // Created by Олег on 2019-06-04.
 //
+#include <math.h>
+#include <boost/thread/barrier.hpp>
 #include <boost/thread/barrier.hpp>
 #include "../headers/equetion.h"
 #include "../headers/plot.h"
 
 int DELTA_T = 1000;
 
-
-void calcul(std::vector<std::vector<double > >& matrix,std::vector<std::vector<double > >& new_matrix, float alpha, float delta_x,
+using std::vector;
+void calcul(vector<vector<double > >& matrix,std::vector<std::vector<double > >& new_matrix, float alpha, float delta_x,
             float delta_y, float delta_t) {
     for (int i = 0; i < matrix.size(); ++i) {
         std::vector<double> new_pmatrix;

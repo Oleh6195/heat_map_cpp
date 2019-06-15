@@ -1,12 +1,12 @@
 matrix.txt # matrix filename
 7800 #ro
-460 #c
+0.46 #c
 80.4 #k
 1000 #height
 1000 #width
 2 # threads number
-1000000 #iterations
-0.1 #delta x
-0.1 #delta y
-0.1 #delta t
-3 # interval for writing result (seconds)
+100000 #iterations
+1 #delta x
+0.8 #delta y
+0.2 #delta t
+2 # interval for writing result (seconds)

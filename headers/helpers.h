@@ -1,8 +1,6 @@
 //
 // Created by Олег on 2019-06-03.
 //
-#include <iostream>
-#include <fstream>
 
 #ifndef TALON_HELPERS_H
 #define TALON_HELPERS_H
@@ -15,11 +13,10 @@
 
 
 using std::vector;
-struct configuration_t
-{
+struct configuration_t {
     std::string filename;
-    double ro, k,x,y;
-    float c,delta_y, delta_x, delta_t;
+    double ro, k, x, y;
+    float c, delta_y, delta_x, delta_t;
     int thr_num, iterations, interval_printing;
 };
 
@@ -31,10 +28,14 @@ inline std::chrono::steady_clock::time_point get_current_time_fenced() {
     return res_time;
 }
 
-void load_matrix(const std::string &filename, std::vector<std::vector<double >>& matrix, double x, double y);
-configuration_t read_conf(std::istream& cf);
+void load_matrix(const std::string &filename, std::vector<std::vector<double >> &matrix, double x, double y);
 
-void move_matrix(std::vector<std::vector<double >>& matrix, std::vector<std::vector<double >>& new_matrix);
-void printmatrix(std::vector<std::vector<double >>& matrix);
+configuration_t read_conf(std::istream &cf);
+
+void move_matrix(std::vector<std::vector<double >> &matrix, std::vector<std::vector<double >> &new_matrix);
+
+void printmatrix(std::vector<std::vector<double >> &matrix);
+
 void write_matrix(int i, std::vector<std::vector<double >> matrix);
+
 #endif //TALON_HELPERS_H

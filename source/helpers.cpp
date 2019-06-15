@@ -4,10 +4,11 @@
 #include "../headers/helpers.h"
 
 using namespace boost::locale::boundary;
+using std::ios;
 
 configuration_t read_conf(std::istream& cf){
 
-    std::ios::fmtflags flags( cf.flags() );
+    ios::fmtflags flags( cf.flags() );
     cf.exceptions(std::ifstream::failbit);
 
     configuration_t res{};
@@ -68,17 +69,11 @@ void load_matrix(const std::string &filename, std::vector<std::vector<double >>&
     }
 }
 
-void move_matrix(std::vector<std::vector<double >>& matrix, std::vector<std::vector<double >>& new_matrix){
-    new_matrix[0] = matrix[0];
-    new_matrix[new_matrix.size()- 1] = matrix[new_matrix.size()- 1];
-    for (int i = 0; i < matrix.size(); ++i) {
-        new_matrix[i][0] = matrix[i][0];
-        new_matrix[i][matrix[i].size() - 1] = matrix[i][matrix[i].size() - 1];
-    }
-    matrix.swap(new_matrix);
-//    matrix = new_matrix;
-//    new_matrix.clear();
-}
+//void move_matrix(std::vector<std::vector<double >>& matrix, std::vector<std::vector<double >>& new_matrix){
+//
+////    matrix = new_matrix;
+////    new_matrix.clear();
+//}
 
 void printmatrix(std::vector<std::vector<double >>& matrix){
     for (int i = 0; i < matrix.size(); ++i) {

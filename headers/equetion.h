@@ -7,9 +7,6 @@
 
 #include <iostream>
 #include <vector>
-#include <math.h>
-#include <boost/thread/barrier.hpp>
-using namespace std;
 
 void calcul(std::vector<std::vector<double > >& matrix,std::vector<std::vector<double > >& new_matrix, float alpha, float delta_x,
             float delta_y, float delta_t);
